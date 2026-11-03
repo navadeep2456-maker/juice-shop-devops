@@ -1,0 +1,24 @@
+name: security
+on: [push, pull_request]
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with: { fetch-depth: 0 }
+
+      - uses: gitleaks/gitleaks-action@v2
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Semgrep
+        run: |
+          pip install semgrep
+          semgrep --config auto --error --severity ERROR .
+
+      - uses: aquasecurity/trivy-action@0.28.0
+        with:
+          scan-type: fs
+          severity: CRITICAL
+          exit-code: '1'

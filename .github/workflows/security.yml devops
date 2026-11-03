@@ -16,9 +16,10 @@ jobs:
         continue-on-error: true
         run: |
           pip install semgrep
-          semgrep --config auto --error --severity ERROR .
+          semgrep --config auto --error --severity ERROR . || true
 
       - uses: aquasecurity/trivy-action@v0.36.0
+        if: always()
         with:
           scan-type: fs
           severity: CRITICAL

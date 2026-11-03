@@ -17,7 +17,7 @@ jobs:
           pip install semgrep
           semgrep --config auto --error --severity ERROR .
 
-      - uses: aquasecurity/trivy-action@0.28.0
+      - uses: aquasecurity/trivy-action@v0.36.0
         with:
           scan-type: fs
           severity: CRITICAL
